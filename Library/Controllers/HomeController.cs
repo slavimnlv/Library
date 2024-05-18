@@ -19,16 +19,6 @@ namespace Library.Controllers
 
         public IActionResult Index()
         {
-
-            User user = new User();
-            user.Username = "root";
-            user.PasswordSalt = "123";
-            user.PasswordHash = "123";
-                
-            _userRepository.Save(user);
-
-
-            List<User> user1 = _userRepository.GetAll().ToList();
             return View();
         }
 
