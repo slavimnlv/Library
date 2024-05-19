@@ -1,8 +1,62 @@
-﻿@{
+﻿@model Library.ViewModels.Home.HomeVM
+@using Library.Entities
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>Book Search</h1>
+
+    <!-- Search Form -->
+    <form method="get" asp-action="Index">
+        <div class="row">
+            <div class="col-2">
+                <label for="Title">Name:</label>
+                <input type="text" id="Title" name="Title" value="@Model.Title" class="form-control" />
+            </div>
+            <div class="col-2">
+                <label for="Author">Author:</label>
+                <input type="text" id="Author" name="Author" value="@Model.Author" class="form-control" />
+            </div>
+            <div class="col-2">
+                <label for="Year">Year of publishing:</label>
+                <input type="number" id="Year" name="Year" value="@Model.Year" class="form-control" />
+            </div>
+            <div class="col-2">
+                <label for="Count">Count:</label>
+                <input type="number" id="Count" name="Count" value="@Model.Count" class="form-control" />
+            </div>
+            <div class="col-2 align-self-end">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="/Home/Index" class="btn btn-secondary">Clear</a>
+            </div>
+        </div>
+    </form>
+
+    <div class="grid">
+        <div class="row mt-4">
+            <div class="col-3">Name:</div>
+            <div class="col-3">Author:</div>
+            <div class="col-3">Year of publishing:</div>
+            <div class="col-3">Count:</div>
+        </div>
+        @foreach (Book item in Model.Books)
+        {
+            <div class="row">
+                <div class="col-3">@item.Title</div>
+                <div class="col-3">@item.Author</div>
+                <div class="col-3">@item.Year</div>
+                <div class="col-3">@item.Count</div>
+            </div>
+        }
+
+        <div class="mt-3">
+            @for (int i = 0; i < Model.PagesCount; i++)
+            {
+                <a href="/Home/Index?Page=@(i+1)&Title=@Model.Title&Author=@Model.Author&Year=@Model.Year&Count=@Model.Count" class="btn btn-secondary">
+                    @(i + 1)
+                </a>
+            }
+        </div>
+    </div>
 </div>
