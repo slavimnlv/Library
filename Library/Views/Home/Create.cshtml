@@ -36,9 +36,8 @@
             </div>
 
             <div class="row">
-                <div class="col-1">@Html.LabelFor(m => m.SelectedCategoryIds, "Categories")</div>
-                <div class="col-2">@Html.ListBoxFor(m => m.SelectedCategoryIds, Model.Categories, new {@multiple = "multiple" })</div>
-                <div class="col-2">@Html.ValidationMessageFor(m => m.SelectedCategoryIds)</div>
+                <div class="col-1">@Html.LabelFor(m => m.SelectedCategoryIds)</div>
+                <div class="col-2">@Html.ListBoxFor(m => m.SelectedCategoryIds, Model.Categories)</div>
             </div>
 
 

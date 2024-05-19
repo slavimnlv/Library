@@ -24,9 +24,7 @@ namespace Library.ViewModels.Home
         [Range(0, int.MaxValue, ErrorMessage = "Count must be 0 or greater.")]
         public int Count { get; set; }
 
-        [DisplayName("Category: ")]
-        [Required(ErrorMessage = "Required field!")]
         public List<Guid> SelectedCategoryIds { get; set; } = new List<Guid>();
-        public IEnumerable<SelectListItem> Categories { get; set; } 
+        public IEnumerable<SelectListItem>? Categories { get; set; }
     }
 }

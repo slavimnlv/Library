@@ -33,7 +33,7 @@ namespace Library.Repositories
             Context.SaveChanges();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter = null)
+        public T? GetFirstOrDefault(Expression<Func<T, bool>> filter = null)
         {
             IQueryable<T> query = Items;
 

@@ -1,5 +1,7 @@
 ﻿using Library.Entities;
+using Library.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Library.Repositories
@@ -21,16 +23,19 @@ namespace Library.Repositories
 
         private void Seed(ModelBuilder modelBuilder)
         {
-            // Create an admin user if not exists
-            //modelBuilder.Entity<ApplicationUser>().HasData(
-            //    new ApplicationUser
-            //    {
-            //        Id = 1,
-            //        UserName = "admin",
-            //        Email = "admin@example.com",
-            //        PasswordHash = HashPassword("Admin@123"), // Ensure proper password hashing
-            //        Role = "Admin"
-            //    });
+
+            PasswordService.HashPassword("SuperAdmin123", out string hash, out string salt);
+
+            modelBuilder.Entity<User>().HasData(
+
+                new User
+                {
+                    Id = Guid.NewGuid(),
+                    Username = "admin",
+                    PasswordHash = hash,
+                    PasswordSalt = salt
+                }
+                );
 
           
             modelBuilder.Entity<Category>().HasData(

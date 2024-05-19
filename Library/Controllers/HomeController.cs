@@ -27,11 +27,15 @@ namespace Library.Controllers
             model.ItemsPerPage = 10;
             model.PagesCount = (int)Math.Ceiling(_bookRepository.Count() / (double)model.ItemsPerPage);
 
+            model.Categories = _categoryRepository.GetAll();
+
             Expression<Func<Book, bool>> filter = b =>
-                (string.IsNullOrEmpty(model.Title) || b.Title.Contains(model.Title)) &&
-                (string.IsNullOrEmpty(model.Author) || b.Author.Contains(model.Author)) &&
-                (!model.Year.HasValue || b.Year == model.Year.Value) &&
-                (!model.Count.HasValue || b.Count == model.Count.Value);
+            (string.IsNullOrEmpty(model.Title) || b.Title.Contains(model.Title)) &&
+            (string.IsNullOrEmpty(model.Author) || b.Author.Contains(model.Author)) &&
+            (!model.Year.HasValue || b.Year == model.Year.Value) &&
+            (!model.Count.HasValue || b.Count == model.Count.Value) &&
+            (!model.CategoryId.HasValue || b.Categories.Any(c => c.Id == model.CategoryId));
+
 
             model.Books = _bookRepository.GetAll(filter, i => i.Id, model.Page, model.ItemsPerPage);
 
@@ -57,6 +61,7 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult Create(CreateVM model)
         {
+
             if (!ModelState.IsValid)
             {
                 model.Categories = _categoryRepository.GetAll().Select(c => new SelectListItem
@@ -93,6 +98,18 @@ namespace Library.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Details(Guid id)
+        {
+            var book = _bookRepository.GetBookWithDetails(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View(book);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

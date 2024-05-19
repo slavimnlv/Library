@@ -57,7 +57,7 @@ body {
 .grid {
     display: inline-block;
     width: 100%;
-}
+
 
     .grid .row {
         display: inline-block;
@@ -79,9 +79,14 @@ body {
             display: inline-block;
             width: 300px;
         }
+}
 
 input[type=text] {
-    width: 300px;
+    width: 150px;
+}
+
+input[type=number]{
+    width: 150px;
 }
 
 input[type=password] {
