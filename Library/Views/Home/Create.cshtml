@@ -1,0 +1,61 @@
+﻿@model Library.ViewModels.Home.CreateVM;
+
+@{
+    this.Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Add Book";
+}
+
+
+<fieldset>
+    <legend>Add Book</legend>
+    <form action="/Home/Create" method="post">
+       
+        <div class="grid">
+            <div class="row">
+                <div class="col-1">@Html.LabelFor(m => m.Title)</div>
+                <div class="col-2">@Html.TextBoxFor(m => m.Title)</div>
+                <div class="col-2">@Html.ValidationMessageFor(m => m.Title)</div>
+            </div>
+
+            <div class="row">
+                <div class="col-1">@Html.LabelFor(m => m.Author)</div>
+                <div class="col-2">@Html.TextBoxFor(m => m.Author)</div>
+                <div class="col-2">@Html.ValidationMessageFor(m => m.Author)</div>
+            </div>
+
+            <div class="row">
+                <div class="col-1">@Html.LabelFor(m => m.Year)</div>
+                <div class="col-2">@Html.TextBoxFor(m => m.Year, new { @type = "number"})</div>
+                <div class="col-2">@Html.ValidationMessageFor(m => m.Year)</div>
+            </div>
+
+            <div class="row">
+                <div class="col-1">@Html.LabelFor(m => m.Count)</div>
+                <div class="col-2">@Html.TextBoxFor(m => m.Count, new { @type = "number"})</div>
+                <div class="col-2">@Html.ValidationMessageFor(m => m.Count)</div>
+            </div>
+
+            <div class="row">
+                <div class="col-1">@Html.LabelFor(m => m.SelectedCategoryIds, "Categories")</div>
+                <div class="col-2">@Html.ListBoxFor(m => m.SelectedCategoryIds, Model.Categories, new {@multiple = "multiple" })</div>
+                <div class="col-2">@Html.ValidationMessageFor(m => m.SelectedCategoryIds)</div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-3">
+                    @Html.ValidationMessage("summaryError")
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-2">
+                    <input type="submit" value="Save" />
+                </div>
+            </div>
+        </div>
+
+    </form>
+</fieldset>

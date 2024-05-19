@@ -4,7 +4,7 @@
     {
         public string Title { get; set; }
         public string Author { get; set; }
-        public DateTime Year { get; set; }
+        public int Year { get; set; }
         public int Count {  get; set; }
 
         public List<Review> Reviews { get; set; }
