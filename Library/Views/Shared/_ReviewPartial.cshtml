@@ -1,0 +1,26 @@
+﻿@model Library.ViewModels.Reviews.ReviewCreateVM
+
+<div>
+    <form action="/Reviews/Create" method="post">
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.BookId)
+
+        <div class="row">
+            <div class="col-1">@Html.LabelFor(m => m.Comment)</div>
+            <div class="col-2">@Html.TextBoxFor(m => m.Comment)</div>
+            <div class="col-2">@Html.ValidationMessageFor(m => m.Comment)</div>
+        </div>
+
+        <div class="row">
+            <div class="col-1">@Html.LabelFor(m => m.Assessment)</div>
+            <div class="col-2">@Html.TextBoxFor(m => m.Assessment, new { @type = "number" })</div>
+            <div class="col-2">@Html.ValidationMessageFor(m => m.Assessment)</div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
