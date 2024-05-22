@@ -3,56 +3,43 @@
 @{
 	ViewData["Title"] = "Edit book";
 }
+<div class="d-flex flex-wrap border rounded-3 my-5 mx-auto form-container">
+    <h3 class="text-center mt-3 mb-4">Edit book</h3>
 
-<fieldset>
-    <legend>Edit Book</legend>
-    <form action="/Books/Edit" method="post">
+    <form class="flex-grow-1 form-details" action="/Books/Edit" method="post">
         @Html.HiddenFor(m => m.Id)
-        <div class="grid">
-            <div class="row">
-                <div class="col-1">@Html.LabelFor(m => m.Title)</div>
-                <div class="col-2">@Html.TextBoxFor(m => m.Title)</div>
-                <div class="col-2">@Html.ValidationMessageFor(m => m.Title)</div>
-            </div>
 
-            <div class="row">
-                <div class="col-1">@Html.LabelFor(m => m.Author)</div>
-                <div class="col-2">@Html.TextBoxFor(m => m.Author)</div>
-                <div class="col-2">@Html.ValidationMessageFor(m => m.Author)</div>
-            </div>
-
-            <div class="row">
-                <div class="col-1">@Html.LabelFor(m => m.Year)</div>
-                <div class="col-2">@Html.TextBoxFor(m => m.Year, new { @type = "number" })</div>
-                <div class="col-2">@Html.ValidationMessageFor(m => m.Year)</div>
-            </div>
-
-            <div class="row">
-                <div class="col-1">@Html.LabelFor(m => m.Count)</div>
-                <div class="col-2">@Html.TextBoxFor(m => m.Count, new { @type = "number" })</div>
-                <div class="col-2">@Html.ValidationMessageFor(m => m.Count)</div>
-            </div>
-
-            <div class="row">
-                <div class="col-1">@Html.LabelFor(m => m.Categories)</div>
-                <div class="col-2">@Html.ListBoxFor(m => m.SelectedCategoriesIds, Model.Categories)</div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-3">
-                    @Html.ValidationMessage("summaryError")
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-1"></div>
-                <div class="col-2">
-                    <input type="submit" value="Save" />
-                </div>
-            </div>
+        <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
+            @Html.LabelFor(m => m.Title, new { @class = " me-4 flex-grow-1" })
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control flex-grow-1" })
+            @Html.ValidationMessageFor(m => m.Title, string.Empty, new { @class = "flex-grow-1" })
         </div>
 
+        <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
+            @Html.LabelFor(m => m.Author, new { @class = " me-4 flex-grow-1" })
+            @Html.TextBoxFor(m => m.Author, new { @class = "form-control flex-grow-1" })
+            @Html.ValidationMessageFor(m => m.Author, string.Empty, new { @class = "flex-grow-1" })
+        </div>
+
+        <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
+            @Html.LabelFor(m => m.Year, new { @class = " me-4 flex-grow-1" })
+            @Html.TextBoxFor(m => m.Year, new { @class = "form-control flex-grow-1", @type = "number" })
+            @Html.ValidationMessageFor(m => m.Year, string.Empty, new { @class = "flex-grow-1" })
+        </div>
+
+        <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
+            @Html.LabelFor(m => m.Count, new { @class = " me-4 flex-grow-1" })
+            @Html.TextBoxFor(m => m.Count, new { @class = "form-control flex-grow-1", @type = "number" })
+            @Html.ValidationMessageFor(m => m.Count, string.Empty, new { @class = "flex-grow-1" })
+        </div>
+
+        <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
+            @Html.LabelFor(m => m.Categories, new { @class = " me-4 flex-grow-1" })
+            @Html.ListBoxFor(m => m.SelectedCategoriesIds, Model.Categories, new { @class = "form-control flex-grow-1"})
+        </div>
+
+        <div class="text-center my-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
     </form>
-</fieldset>
+</div>

@@ -4,6 +4,8 @@ namespace Library.ViewModels.Reviews
 {
     public class ReviewVM
     {
+        public string AuthorName { get; set; }
+
         [DisplayName("Comment: ")]
         public string Comment { get; set; }
 

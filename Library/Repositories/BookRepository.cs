@@ -28,7 +28,7 @@ namespace Library.Repositories
                 return null;
             }
 
-            var reviewsForBook = _reviewRepository.GetAll(r => r.BookId == Id);
+            var reviewsForBook = _reviewRepository.GetAll(r => r.BookId == Id, null, 1, 2, r => r.User);
             var booksCategories = _categoryRepository.GetAll(c => c.Books.Any(b => b.Id == Id));
 
             var bookDetails = new DetailsVM()
@@ -40,6 +40,7 @@ namespace Library.Repositories
                 Year = book.Year,
                 Reviews = reviewsForBook.Select(r => new ReviewVM
                 {
+                    AuthorName = r.User.Username,
                     Assessment = r.Assessment,
                     Comment = r.Comment
                 }).ToList(),
