@@ -2,6 +2,8 @@
 using Library.ViewModels.Books;
 using Library.ViewModels.Categories;
 using Library.ViewModels.Reviews;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Library.Repositories
 {
@@ -56,6 +58,49 @@ namespace Library.Repositories
             };
 
             return bookDetails;
+        }
+
+        public string ExportBooksAsJson()
+        {
+            var booksAndCategories = Items
+                .Include(b => b.Categories)
+                .ToList();
+
+
+            var reviews = _reviewRepository.GetAll();
+
+            var output = booksAndCategories
+                .Select(b => new BookImportExportVM()
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Author = b.Author,
+                    Year = b.Year,
+                    Count = b.Count,
+                    Categories = b.Categories.Select(c => new CategoryImportExportVM()
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    }).ToList(),
+                    Reviews = reviews
+                        .Where(r => r.BookId == b.Id)
+                        .Select(r => new ReviewImportExportVM()
+                        {
+                            Id = r.Id,
+                            UserId = r.UserId,
+                            BookId = r.BookId,
+                            Comment = r.Comment,
+                            Assessment = r.Assessment
+                        }).ToList()
+                })
+                .ToList();
+
+            var jsonString = JsonSerializer.Serialize(output, new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            });
+
+            return jsonString;
         }
     }
 }

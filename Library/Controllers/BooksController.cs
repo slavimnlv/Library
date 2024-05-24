@@ -2,6 +2,7 @@
 using Library.ViewModels.Books;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
 
 namespace Library.Controllers
 {
@@ -142,6 +143,14 @@ namespace Library.Controllers
             _bookRepository.Save(book);
 
             return RedirectToAction("Details", new { Id = bookId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ExportAsync()
+        {
+            var jsonString = _bookRepository.ExportBooksAsJson();
+
+            return File(Encoding.UTF8.GetBytes(jsonString), "application/json", "Export.json");
         }
     }
 }
