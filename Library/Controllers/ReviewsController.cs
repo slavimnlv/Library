@@ -1,10 +1,12 @@
 ﻿using Library.Entities;
 using Library.Repositories;
 using Library.ViewModels.Reviews;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers
 {
+    [Authorize]
     public class ReviewsController : Controller
     {
         private readonly ReviewRepository _reviewRepository;

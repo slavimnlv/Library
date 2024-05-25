@@ -1,10 +1,17 @@
 using Library.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(
+    option => { 
+        option.LoginPath = "/Users/Login"; 
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    });
 
 builder.Services.AddDbContext<LibraryDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
@@ -14,12 +21,6 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<ReviewRepository>();
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
 
 
 var app = builder.Build();
@@ -35,13 +36,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Users}/{action=Login}/{id?}");
 
 using (var scope = app.Services.CreateScope())
 {

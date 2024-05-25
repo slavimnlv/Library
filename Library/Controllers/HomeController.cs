@@ -2,6 +2,7 @@ using Library.Entities;
 using Library.Models;
 using Library.Repositories;
 using Library.ViewModels.Home;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
@@ -9,6 +10,7 @@ using System.Linq.Expressions;
 
 namespace Library.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly BookRepository _bookRepository;
