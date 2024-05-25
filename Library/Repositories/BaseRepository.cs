@@ -1,6 +1,5 @@
 ﻿using Library.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Library.Repositories
@@ -43,7 +42,7 @@ namespace Library.Repositories
             return query.FirstOrDefault();
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, int page = 1, int itemsPerPage = Int32.MaxValue)
+        public List<T> GetAll(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, int page = 1, int itemsPerPage = Int32.MaxValue, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = Items;
 
@@ -52,6 +51,15 @@ namespace Library.Repositories
 
             if (orderBy != null)
                 query = query.OrderByDescending(orderBy);
+
+
+            if (includeProperties.Length > 0)
+            {
+                foreach (var include in includeProperties)
+                {
+                    query = query.Include(include);
+                }
+            }
 
             return query
                 .Skip(itemsPerPage * (page - 1))

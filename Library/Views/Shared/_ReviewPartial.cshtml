@@ -1,0 +1,25 @@
+﻿@model Library.ViewModels.Reviews.ReviewCreateVM
+
+<div class="d-flex flex-wrap border rounded-3 my-5 mx-auto form-container">
+    <h3 class="text-center mt-3 mb-4">Write a review</h3>
+    <form class="flex-grow-1 form-details" action="/Reviews/Create" method="post">
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.BookId)
+
+        <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
+            @Html.LabelFor(m => m.Comment, new { @class = " me-4 flex-grow-1" })
+            @Html.TextBoxFor(m => m.Comment, new { @class = "form-control flex-grow-1" })
+            @Html.ValidationMessageFor(m => m.Comment, string.Empty, new { @class = "flex-grow-1"})
+        </div>
+
+        <div class="assessment-dropdown-container flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
+            @Html.LabelFor(m => m.Assessment, new { @class = " me-4 flex-grow-1" })
+            @Html.DropDownListFor(m => m.Assessment, Enumerable.Range(1, 5).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
+            @Html.ValidationMessageFor(m => m.Assessment, string.Empty, new { @class = "flex-grow-1" })
+        </div>
+
+        <div class="text-center my-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

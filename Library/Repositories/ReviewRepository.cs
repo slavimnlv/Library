@@ -7,5 +7,11 @@ namespace Library.Repositories
         public ReviewRepository(LibraryDbContext context) : base(context)
         {
         }
+
+        public void AddImported(Review imported)
+        {
+            Items.Add(imported);
+            Context.SaveChanges();
+        }
     }
 }

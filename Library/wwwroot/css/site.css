@@ -27,7 +27,6 @@ body {
 
 .container {
     width: 100%;
-    display: inline-block;
 }
 
 .header .title {
@@ -100,4 +99,46 @@ input[type=password] {
 
 .text-center {
     align-content: center;
+}
+
+.details-heading{
+    min-width: 100%;
+}
+
+.details {
+    min-width: 30%;
+}
+
+.details-buttons-container{
+    min-width: 100%;
+}
+
+.with-reviews {
+    max-width: 1000px;
+}
+
+.no-reviews {
+    max-width: 35%;
+    justify-content: center;
+    text-align: center
+}
+
+.form-container {
+    max-width: 35%;
+}
+
+.form-container h3 {
+    min-width: 100%;
+}
+
+.form-details input[type=text], input[type=number]{
+    width: 100%;
+}
+
+.assessment-dropdown-container select {
+    width: 100%;
+    padding: .375rem .75rem;
+    font-weight: 400;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
 }

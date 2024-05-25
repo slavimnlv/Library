@@ -1,14 +1,14 @@
-﻿@model Library.ViewModels.Home.CreateVM;
+﻿@model Library.ViewModels.Books.EditVM;
 
 @{
-    this.Layout = "/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Add Book";
+	ViewData["Title"] = "Edit book";
 }
-
 <div class="d-flex flex-wrap border rounded-3 my-5 mx-auto form-container">
-    <h3 class="text-center mt-3 mb-4">Add book</h3>
+    <h3 class="text-center mt-3 mb-4">Edit book</h3>
 
-    <form class="flex-grow-1 form-details" action="/Home/Create" method="post">
+    <form class="flex-grow-1 form-details" action="/Books/Edit" method="post">
+        @Html.HiddenFor(m => m.Id)
+
         <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
             @Html.LabelFor(m => m.Title, new { @class = " me-4 flex-grow-1" })
             @Html.TextBoxFor(m => m.Title, new { @class = "form-control flex-grow-1" })
@@ -35,7 +35,7 @@
 
         <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
             @Html.LabelFor(m => m.Categories, new { @class = " me-4 flex-grow-1" })
-            @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.Categories, new { @class = "form-control flex-grow-1" })
+            @Html.ListBoxFor(m => m.SelectedCategoriesIds, Model.Categories, new { @class = "form-control flex-grow-1"})
         </div>
 
         <div class="text-center my-4">

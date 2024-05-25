@@ -4,7 +4,6 @@ using Library.Repositories;
 using Library.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
@@ -15,7 +14,7 @@ namespace Library.Controllers
         private readonly BookRepository _bookRepository;
         private readonly CategoryRepository _categoryRepository;
 
-        public HomeController( BookRepository bookRepository, CategoryRepository categoryRepository)
+        public HomeController(BookRepository bookRepository, CategoryRepository categoryRepository)
         {
             _bookRepository = bookRepository;
             _categoryRepository = categoryRepository;
@@ -55,7 +54,7 @@ namespace Library.Controllers
                 }).ToList()
             };
             return View(model);
-           
+
         }
 
         [HttpPost]
@@ -98,18 +97,6 @@ namespace Library.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-        public IActionResult Details(Guid id)
-        {
-            var book = _bookRepository.GetBookWithDetails(id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

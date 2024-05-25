@@ -62,7 +62,7 @@
         {
             <div class="row">
                 <div class="col-3">
-                    <a href="@Url.Action("Details", "Home", new { id = item.Id })">@item.Title</a>
+                    <a href="@Url.Action("Details", "Books", new { id = item.Id })">@item.Title</a>
                 </div>
                 <div class="col-3">@item.Author</div>
                 <div class="col-3">@item.Year</div>
@@ -76,6 +76,12 @@
                 <a href="/Home/Index?Page=@(i+1)&Title=@Model.Title&Author=@Model.Author&Year=@Model.Year&Count=@Model.Count&CategoryId=@Model.CategoryId" class="btn btn-secondary">
                     @(i + 1)
                 </a>
+            }
+        </div>
+         
+        <div class="mt-3">
+            @{
+                await Html.RenderPartialAsync("_ImportExportPartial");
             }
         </div>
     </div>
