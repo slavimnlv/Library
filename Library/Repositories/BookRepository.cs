@@ -102,5 +102,65 @@ namespace Library.Repositories
 
             return jsonString;
         }
+
+        public void ImportBooks(IFormFile file)
+        {
+            using (StreamReader sr = new(file.OpenReadStream()))
+            {
+                var jsonData = sr.ReadToEnd();
+                var items = JsonSerializer.Deserialize<List<BookImportExportVM>>(jsonData);
+
+                if (items.Count == 0)
+                {
+                    //throwing an error for wrong json format
+                }
+
+                foreach (var item in items)
+                {
+                    var book = new Book()
+                    {
+                        Id = item.Id,
+                        Title = item.Title,
+                        Author = item.Author,
+                        Year = item.Year,
+                        Count = item.Count
+                    };
+
+                    foreach (var category in item.Categories)
+                    {
+                        var categoryFromDb = _categoryRepository.GetFirstOrDefault(c => c.Id == category.Id);
+
+                        if (categoryFromDb == null)
+                        {
+                            var categoryDb = new Category()
+                            {
+                                Id = category.Id,
+                                Name = category.Name,
+                            };
+
+                            book.Categories.Add(categoryDb);
+                            continue;
+                        }
+
+                        book.Categories.Add(categoryFromDb);
+                    }
+
+                    Items.Add(book);
+                    Context.SaveChanges();
+
+                    foreach (var review in item.Reviews)
+                    {
+                        _reviewRepository.AddImported(new Review()
+                        {
+                            Id = review.Id,
+                            UserId = review.UserId,
+                            BookId = review.BookId,
+                            Comment = review.Comment,
+                            Assessment = review.Assessment
+                        });
+                    }
+                }
+            }
+        }
     }
 }

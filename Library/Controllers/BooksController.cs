@@ -146,11 +146,33 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ExportAsync()
+        public IActionResult Export()
         {
             var jsonString = _bookRepository.ExportBooksAsJson();
 
             return File(Encoding.UTF8.GetBytes(jsonString), "application/json", "Export.json");
+        }
+
+        [HttpPost]
+        public IActionResult Import(IFormFile file)
+        {
+            if (file == null ||
+                file.Length == 0 ||
+                Path.GetExtension(file.FileName).ToLower() != ".json")
+            {
+                //handle error
+            }
+
+            try
+            {
+                _bookRepository.ImportBooks(file);
+            }
+            catch (Exception ex)
+            {
+                //handle error
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
