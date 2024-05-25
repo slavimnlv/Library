@@ -5,11 +5,12 @@ namespace Library.Repositories
 {
     public class UserRepository : BaseRepository<User>
     {
+
         public UserRepository(LibraryDbContext context) : base(context)
         {
         }
 
-        public User? GetByUsernameAsync(string username)
+        public User? GetByUsername(string username)
         {
             IQueryable<User> query = Items;
 

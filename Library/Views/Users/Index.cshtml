@@ -1,0 +1,26 @@
+﻿@model Library.ViewModels.Users.IndexVM
+@using Library.Entities
+@{
+    this.Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Users";
+}
+
+<div>
+    <a class="btn btn-primary" href="/Users/Create">Create New User</a>
+</div>
+<div class="grid">
+    <div class="row">
+        <div class="col-1">Username:</div>
+        <div class="col-2"></div>
+    </div>
+    @foreach (User item in Model.Items)
+    {
+        <div class="row">
+            <div class="col-1">@item.Username</div>
+            <div class="col-2">
+                <a href="/Users/Edit?Id=@item.Id">Edit</a>
+                <a href="/Users/Delete?Id=@item.Id">Delete</a>
+            </div>
+        </div>
+    }
+</div>
