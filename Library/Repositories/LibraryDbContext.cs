@@ -15,6 +15,10 @@ namespace Library.Repositories
 
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options) { }
 
+        public LibraryDbContext()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
