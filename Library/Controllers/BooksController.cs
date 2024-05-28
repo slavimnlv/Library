@@ -3,7 +3,9 @@ using Library.ViewModels.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace Library.Controllers
 {
@@ -21,7 +23,9 @@ namespace Library.Controllers
 
         public IActionResult Details(Guid id)
         {
-            var book = _bookRepository.GetBookWithDetails(id);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var book = _bookRepository.GetBookWithDetails(id, userId);
             if (book == null)
             {
                 return NotFound();
@@ -162,16 +166,21 @@ namespace Library.Controllers
                 file.Length == 0 ||
                 Path.GetExtension(file.FileName).ToLower() != ".json")
             {
-                //handle error
+                TempData["importError"] = "Please upload a valid .json file!";
+                return RedirectToAction("Index", "Home");
             }
 
             try
             {
                 _bookRepository.ImportBooks(file);
             }
+            catch (JsonException jex)
+            {
+                TempData["importError"] = jex.Message;
+            }
             catch (Exception ex)
             {
-                //handle error
+                TempData["importError"] = "There was an error while importing the file!";
             }
 
             return RedirectToAction("Index", "Home");

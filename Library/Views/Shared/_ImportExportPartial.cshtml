@@ -1,7 +1,19 @@
-﻿<form action="/Books/Export" method="post">
-	<button class="btn btn-primary" type="submit">Export</button>
-</form>
-<form action="/Books/Import" method="post" enctype="multipart/form-data">
-	<input type="file" accept=".json" name="file"/>
-	<button class="btn btn-primary" type="submit">Import</button>
-</form>
+﻿
+<div class="d-flex justify-content-center import-export-container flex-wrap gap-3 mx-auto mt-5 border rounded-3 p-4 fs-5">
+    <form action="/Books/Export" method="post">
+        <p>Export all books: </p>
+        <button class="btn btn-primary" type="submit">Export</button>
+    </form>
+    <form class="input-group import-container" action="/Books/Import" method="post" enctype="multipart/form-data">
+        <p>Import books: </p>
+        <input class="form-control" type="file" accept=".json" name="file" required />
+        <button class="btn btn-outline-secondary" type="submit">Import</button>
+    </form>
+
+    @if (TempData["importError"] != null)
+    {
+        <div class="text-center text-danger">
+            @TempData["importError"]
+        </div>
+    }
+</div>

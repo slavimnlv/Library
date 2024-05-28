@@ -1,6 +1,6 @@
 using Library.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +8,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(
-    option => { 
-        option.LoginPath = "/Users/Login"; 
+    option =>
+    {
+        option.LoginPath = "/Users/Login";
         option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     });
 

@@ -11,15 +11,19 @@ namespace Library.Repositories
     {
         private readonly ReviewRepository _reviewRepository;
         private readonly CategoryRepository _categoryRepository;
+        private readonly UserRepository _userRepository;
 
-        public BookRepository(LibraryDbContext context, ReviewRepository reviewRepository, CategoryRepository categoryRepository)
+        public BookRepository(
+            LibraryDbContext context,
+            ReviewRepository reviewRepository,
+            CategoryRepository categoryRepository)
             : base(context)
         {
             _reviewRepository = reviewRepository;
             _categoryRepository = categoryRepository;
         }
 
-        public DetailsVM? GetBookWithDetails(Guid Id)
+        public DetailsVM? GetBookWithDetails(Guid Id, string userId)
         {
             var book = Items
                 .Where(b => b.Id == Id)
@@ -30,7 +34,7 @@ namespace Library.Repositories
                 return null;
             }
 
-            var reviewsForBook = _reviewRepository.GetAll(r => r.BookId == Id, null, 1, 2, r => r.User);
+            var reviewsForBook = _reviewRepository.GetAll(r => r.BookId == Id, null, 1, Int32.MaxValue, r => r.User);
             var booksCategories = _categoryRepository.GetAll(c => c.Books.Any(b => b.Id == Id));
 
             var bookDetails = new DetailsVM()
@@ -52,7 +56,7 @@ namespace Library.Repositories
                 }).ToList(),
                 NewReview = new ReviewCreateVM()
                 {
-                    UserId = Guid.Parse("37434f41-8df2-4e41-b575-a07e3ca25fac"),
+                    UserId = Guid.Parse(userId),
                     BookId = book.Id,
                 }
             };
@@ -110,21 +114,27 @@ namespace Library.Repositories
                 var jsonData = sr.ReadToEnd();
                 var items = JsonSerializer.Deserialize<List<BookImportExportVM>>(jsonData);
 
+                //wrong json format
                 if (items.Count == 0)
                 {
-                    //throwing an error for wrong json format
+                    throw new JsonException("Wrong format for the json data!");
                 }
 
                 foreach (var item in items)
                 {
                     var book = new Book()
                     {
-                        Id = item.Id,
+                        Id = item.Id == default ? Guid.NewGuid() : item.Id,
                         Title = item.Title,
                         Author = item.Author,
                         Year = item.Year,
                         Count = item.Count
                     };
+
+                    if (isInDb(book))
+                    {
+                        continue;
+                    }
 
                     foreach (var category in item.Categories)
                     {
@@ -161,6 +171,13 @@ namespace Library.Repositories
                     }
                 }
             }
+        }
+
+        private bool isInDb(Book book)
+        {
+            return GetAll(b => b.Author == book.Author &&
+                          b.Title == book.Title &&
+                          b.Year == book.Year).Count > 0;
         }
     }
 }

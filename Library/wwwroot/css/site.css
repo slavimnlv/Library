@@ -163,3 +163,11 @@ input[type=password] {
     white-space: nowrap;
     line-height: 60px;
 }
+
+.import-export-container{
+    width: 40%;
+}
+
+.import-container p {
+    width: 100%;
+}
