@@ -9,6 +9,8 @@
     <h3 class="text-center mt-3 mb-4">Edit User</h3>
 
     <form class="flex-grow-1 form-details" action="/Users/Edit" method="post">
+        @Html.HiddenFor(m => m.Id)
+
         <div class="flex-wrap my-3 d-flex w-50 mx-auto justify-content-end align-items-center">
             @Html.LabelFor(m => m.Username, new { @class = " me-4 flex-grow-1" })
             @Html.TextBoxFor(m => m.Username, new { @class = "form-control flex-grow-1" })
